@@ -1,0 +1,40 @@
+name: Build and Deploy to CapRover
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+      - name: Deploy to CapRover
+        run: |
+          curl -X POST "${{ secrets.CAPROVER_URL }}/api/v2/appDeploy" \
+            -H "captain-auth: ${{ secrets.CAPROVER_APP_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"imageName":"ghcr.io/'"${{ github.repository }}:${{ github.sha }}"'"}'
