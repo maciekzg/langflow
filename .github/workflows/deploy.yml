@@ -30,11 +30,11 @@ jobs:
 
       - name: Push Docker image
         run: |
+          DOCKER_BUILDKIT=1 docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
           docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Deploy to CapRover
         run: |
-          DOCKER_BUILDKIT=1 docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
           curl -X POST "${{ secrets.CAPROVER_URL }}/api/v2/appDeploy" \
             -H "captain-auth: ${{ secrets.CAPROVER_APP_TOKEN }}" \
             -H "Content-Type: application/json" \
