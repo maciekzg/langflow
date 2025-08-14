@@ -1,0 +1,44 @@
+{
+    "name": "Example Flow",
+    "description": "Minimalny przykładowy flow łączący prompt z odpowiedzią OpenAI",
+    "nodes": [
+      {
+        "id": "input_node",
+        "type": "TextInput",
+        "position": { "x": 50, "y": 100 },
+        "data": {
+          "value": "Hello, Langflow!"
+        }
+      },
+      {
+        "id": "llm_node",
+        "type": "OpenAIModel",
+        "position": { "x": 300, "y": 100 },
+        "data": {
+          "model_name": "gpt-3.5-turbo",
+          "temperature": 0.7
+        }
+      },
+      {
+        "id": "output_node",
+        "type": "TextOutput",
+        "position": { "x": 600, "y": 100 },
+        "data": {}
+      }
+    ],
+    "edges": [
+      {
+        "source": "input_node",
+        "sourceHandle": "output",
+        "target": "llm_node",
+        "targetHandle": "input"
+      },
+      {
+        "source": "llm_node",
+        "sourceHandle": "output",
+        "target": "output_node",
+        "targetHandle": "input"
+      }
+    ]
+  }
+  
