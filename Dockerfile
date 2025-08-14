@@ -23,13 +23,13 @@ COPY custom_components /app/custom_components
 COPY flows /app/flows
 
 # 6. Default environment variables (CapRover can override at runtime)
-ENV LANGFLOW_COMPONENTS_PATH=/app/custom_components \
-    LANGFLOW_LOAD_FLOWS_PATH=/app/flows \
-    LANGFLOW_LOG_ENV=container \
-    LANGFLOW_PORT=7860
+ENV LANGFLOW_COMPONENTS_PATH=${LANGFLOW_COMPONENTS_PATH:-/app/custom_components} \
+    LANGFLOW_LOAD_FLOWS_PATH=${LANGFLOW_LOAD_FLOWS_PATH:-/app/flows} \
+    LANGFLOW_LOG_ENV=${LANGFLOW_LOG_ENV:-container} \
+    LANGFLOW_PORT=${LANGFLOW_PORT:-7860}
 
 # 7. Expose Langflow port
-EXPOSE 7860
+EXPOSE ${LANGFLOW_PORT:-7860}
 
 # 8. Start Langflow
-CMD ["python", "-m", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["python", "-m", "langflow", "run", "--host", "0.0.0.0", "--port", "${LANGFLOW_PORT}"]
