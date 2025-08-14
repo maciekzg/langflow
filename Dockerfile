@@ -22,11 +22,6 @@ RUN mkdir -p /app/custom_components /app/flows
 COPY custom_components /app/custom_components
 COPY flows /app/flows
 
-# spwawdzic
-COPY ./app/custom_components /app/custom_components
-COPY ./flows /app/flows
-
-
 # 6. Default environment variables (CapRover can override at runtime)
 ENV LANGFLOW_COMPONENTS_PATH=${LANGFLOW_COMPONENTS_PATH:-/app/custom_components} \
     LANGFLOW_LOAD_FLOWS_PATH=${LANGFLOW_LOAD_FLOWS_PATH:-/app/flows} \
