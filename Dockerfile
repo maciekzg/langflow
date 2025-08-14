@@ -7,6 +7,7 @@ COPY pyproject.toml uv.lock /app/
 # 2. Copy source code needed for local package installation
 #    Required because uv will look for the backend package here
 COPY src /app/src
+COPY README.md /app/
 
 # 3. Install dependencies with uv (with cache for faster builds)
 RUN --mount=type=cache,target=/root/.cache/uv \
