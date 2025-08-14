@@ -26,11 +26,11 @@ jobs:
 
       - name: Build Docker image
         run: |
+          DOCKER_BUILDKIT=1 docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
           docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
 
       - name: Push Docker image
         run: |
-          DOCKER_BUILDKIT=1 docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
           docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Deploy to CapRover
