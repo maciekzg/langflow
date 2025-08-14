@@ -10,8 +10,10 @@ COPY src /app/src
 COPY README.md /app/
 
 # 3. Install dependencies with uv (with cache for faster builds)
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-editable --extra postgresql
+# RUN --mount=type=cache,target=/root/.cache/uv \
+####### xxxx  docker buildx build -t image_name .   uv sync --frozen --no-editable --extra postgresql
+
+RUN uv sync --frozen --no-editable --extra postgresql   
 
 # 4. Create required dirs to avoid COPY errors
 RUN mkdir -p /app/custom_components /app/flows
